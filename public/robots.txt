@@ -1,0 +1,13 @@
+# https://www.robotstxt.org/robotstxt.html
+User-agent: *
+Allow: /
+
+# Disallow specific paths if needed
+# Disallow: /admin/
+# Disallow: /private/
+
+# Sitemap location
+Sitemap: https://techversey.com/sitemap.xml
+
+# Crawl-delay for politeness (optional)
+Crawl-delay: 1
