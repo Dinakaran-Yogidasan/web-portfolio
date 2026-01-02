@@ -148,7 +148,7 @@ export const portfolioData = {
       id: "1",
       role: "ReactJS Developer",
       company: "VML",
-      period: "2024 - Present",
+      period: "Dec 2023 - Present",
       description: [
         "Developed PDF download & checkout flows with reusable components and Redux",
         "Automated deployments with GitHub Actions & Jenkins, reducing release time by 30%",
@@ -160,7 +160,7 @@ export const portfolioData = {
       id: "2",
       role: "Software Engineer",
       company: "Innova Solutions",
-      period: "2022 - 2023",
+      period: "Jun 2022 - Dec 2023",
       description: [
         "Built interactive ReactJS UIs from UX wireframes, boosting user engagement by 20%",
         "Implemented Redux Toolkit for scalable and consistent state management",
@@ -172,7 +172,7 @@ export const portfolioData = {
       id: "3",
       role: "Technical Associate",
       company: "Genpact",
-      period: "2021 - 2022",
+      period: "Oct 2021 - Jun 2022",
       description: [
         "Designed a user-friendly UI to streamline sales and customer data entry, improving efficiency by 25%",
         "Built a dynamic customer database for managing client details and purchase history",
