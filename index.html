@@ -41,21 +41,29 @@
   <!-- Canonical URL -->
   <link rel="canonical" href="https://techversey.com/" />
 
-  <!-- Favicon -->
+  <!-- Favicon and PWA icons with multiple sizes -->
+  <link rel="icon" type="image/svg+xml" href="/logo.svg" />
   <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
   <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
   <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
   <link rel="manifest" href="/site.webmanifest" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="Dinakaran Dev" />
 
-  <!-- Preload critical resources -->
-  <link rel="preload" as="font" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
-    crossorigin />
+  <!-- Preload critical resources with font-display swap -->
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" />
 
-  <!-- Reduce render-blocking resources -->
+  <!-- Preload LCP images for better Core Web Vitals -->
+  <link rel="preload" as="image" href="/src/assets/images/programmer.jpg" />
+  <link rel="preload" as="image" href="/src/assets/images/userLogo.jpg" />
+
+  <!-- Reduce render-blocking resources with optimized preconnect -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 
-  <!-- DNS-Prefetch for external resources -->
+  <!-- DNS-Prefetch for external resources to reduce latency -->
   <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
   <link rel="dns-prefetch" href="https://fonts.gstatic.com" />
 </head>
