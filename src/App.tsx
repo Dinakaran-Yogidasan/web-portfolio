@@ -5,8 +5,6 @@ import Footer from "./components/Footer";
 import { useTheme } from "./hooks/useTheme";
 import ScrollToTop from "./utils/ScrollToTop";
 import LoadingFallback from "./components/ui/LoadingFallback";
-import SEO from "./components/seo/SEO";
-import StructuredData from "./components/seo/StructuredData";
 
 // Lazy load components for better performance
 const Hero = lazy(() => import("./components/Hero"));
@@ -47,14 +45,12 @@ const App: React.FC = () => {
   const { theme, toggleTheme } = useTheme();
   return (
     <div className="min-h-screen bg-slate-50 dark:bg-slate-950 overflow-x-hidden selection:bg-neon-cyan/30 transition-colors duration-300">
-      <SEO />
-      <StructuredData />
       <Navbar theme={theme} toggleTheme={toggleTheme} />
       <ScrollToTop />
       <Routes>
         <Route path="/" element={<Home />} />
-        {/* Example of how additional routes would be added */}
-        {/* <Route path="/project/:id" element={<ProjectDetail />} /> */}
+        {/* Example of how additional routes would be added
+        <Route path="/project/:id" element={<ProjectDetail />} /> */}
       </Routes>
       <Footer />
     </div>

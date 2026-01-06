@@ -64,7 +64,7 @@ export const portfolioData = {
       "Tailwind CSS",
       "Bootstrap",
       "Preline",
-      "Cypress",
+      "Figma",
     ],
     devops: ["GitHub Actions", "Jenkins", "Git", "GitHub", "Docker"],
     cloudAndSec: [
@@ -76,6 +76,7 @@ export const portfolioData = {
       "42Crunch",
       "Fossa",
       "Cycode",
+      "Cypress",
     ],
   },
   jobTitles: [
