@@ -11,13 +11,14 @@ import {
   Cpu,
   Layers,
 } from "lucide-react";
+import Section from "./ui/Section";
 import RotatingJobTitle from "../utils/RotatingJobTitle";
-import { portfolioData } from "../data/portfolio";
 import DinakaranYogidasan from "../assets/resume/Dinakaran-Yogidasan.pdf";
+import { portfolioData } from "../data/portfolio";
 
 const Hero: React.FC = () => {
   return (
-    <section
+    <Section
       id="hero"
       className="relative min-h-screen flex items-center justify-center pt-28 lg:pt-32 pb-16 overflow-hidden"
       aria-label="Hero section - Introduction"
@@ -74,14 +75,13 @@ const Hero: React.FC = () => {
             <RotatingJobTitle className=" text-blue-500 inline font-bold" />{" "}
             {portfolioData.bio}
           </p>
-
           <div
             className="flex flex-col sm:flex-row gap-3 w-full sm:w-auto pt-2 animate-fadeInUp"
             style={{ animationDelay: "0.4s" }}
           >
             <a
               href="#projects"
-              className="group px-8 py-4 rounded-full bg-slate-900 dark:bg-white text-white dark:text-slate-900 font-bold hover:shadow-lg hover:shadow-neon-cyan/20 transition-all flex items-center justify-center gap-2 hover:scale-105 active:scale-95"
+              className=" group px-8 py-4 rounded-full bg-linear-to-b from-blue-500 to-blue-600 text-white focus:ring-2 focus:ring-blue-400 hover:shadow-xl transition duration-200  flex items-center justify-center gap-2 "
             >
               View Projects
               <ArrowRight
@@ -261,7 +261,7 @@ const Hero: React.FC = () => {
           </div>
         </div>
       </div>
-    </section>
+    </Section>
   );
 };
 

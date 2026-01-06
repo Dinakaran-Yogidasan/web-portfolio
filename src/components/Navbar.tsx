@@ -1,8 +1,7 @@
 import { useState, useEffect } from "react";
-import { Menu, X, Sun, Moon } from "lucide-react";
 import { useNavigate, useLocation } from "react-router-dom";
+import { Menu, X, Sun, Moon } from "lucide-react";
 import { portfolioData } from "../data/portfolio";
-
 interface NavbarProps {
   theme: "light" | "dark";
   toggleTheme: () => void;
@@ -72,7 +71,7 @@ const Navbar: React.FC<NavbarProps> = ({ theme, toggleTheme }) => {
             }}
           >
             <div className="relative">
-              <div className="absolute inset-0 bg-linear-to-r from-neon-cyan/30 to-blue-500/30 rounded-xl blur-lg group-hover:blur-xl transition-all duration-300" />
+              <div className="absolute inset-0 bg-linear-to-r  to-blue-500/30 rounded-xl blur-lg group-hover:blur-xl transition-all duration-300" />
               <img
                 src="/logo.svg"
                 alt="Danny.Dev logo"
@@ -81,8 +80,8 @@ const Navbar: React.FC<NavbarProps> = ({ theme, toggleTheme }) => {
                 decoding="async"
               />
             </div>
-            <span className="font-display font-bold text-lg sm:text-xl tracking-tight text-slate-900 dark:text-white group-hover:text-neon-cyan dark:group-hover:text-neon-cyan transition-colors duration-300">
-              Danny<span className="text-neon-cyan">.Dev</span>
+            <span className="font-display font-bold text-lg sm:text-xl tracking-tight text-slate-900 dark:text-white transition-colors duration-300">
+              Dinakaran Yogidasan
             </span>
           </div>
 
@@ -122,7 +121,6 @@ const Navbar: React.FC<NavbarProps> = ({ theme, toggleTheme }) => {
                   )}
                 </span>
               </button>
-
               <a
                 href="#contact"
                 onClick={(e) => handleNavClick(e, "#contact")}

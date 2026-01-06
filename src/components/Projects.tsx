@@ -9,7 +9,7 @@ type ProjectWithDetails = Project & {
   imageUrl?: string;
   liveUrl?: string;
   githubUrl?: string;
-}
+};
 
 const categoryConfig = {
   Frontend: {
@@ -92,7 +92,10 @@ const ProjectModal: React.FC<{
             </div>
           ) : (
             <img
-              src={(project as ProjectWithDetails).imageUrl || "/project-placeholder.png"}
+              src={
+                (project as ProjectWithDetails).imageUrl ||
+                "/project-placeholder.png"
+              }
               alt={project.title}
               className="w-full h-auto animate-fadeIn"
             />
@@ -155,6 +158,16 @@ const ProjectModal: React.FC<{
 
 const Projects: React.FC = () => {
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
+  const [activeFilter, setActiveFilter] = useState<string>("All");
+
+  const categories = ["All", "Frontend", "DevOps", "Fullstack"];
+
+  const filteredProjects =
+    activeFilter === "All"
+      ? portfolioData.projects
+      : portfolioData.projects.filter(
+          (project) => project.category === activeFilter
+        );
 
   return (
     <Section
@@ -166,9 +179,27 @@ const Projects: React.FC = () => {
         subTitle={portfolioData.project.subTitle}
         titleBio={portfolioData.project.titleBio}
       />
+
+      {/* Filter Buttons */}
+      <div className="flex flex-wrap justify-center gap-3 md:gap-4 mb-8 md:mb-12">
+        {categories.map((category) => (
+          <button
+            key={category}
+            onClick={() => setActiveFilter(category)}
+            className={`px-4 md:px-6 py-2 md:py-2.5 rounded-full font-bold text-sm md:text-base transition-all duration-300 transform hover:scale-105 ${
+              activeFilter === category
+                ? "bg-gradient-to-r from-blue-500 to-blue-600 text-white shadow-lg shadow-blue-500/50"
+                : "bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-300 dark:hover:bg-slate-700"
+            }`}
+          >
+            {category}
+          </button>
+        ))}
+      </div>
+
       {/* Projects Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 lg:gap-8 mb-12 md:mb-16">
-        {portfolioData.projects.map((project, idx) => (
+        {filteredProjects.map((project, idx) => (
           <div
             key={idx}
             className="group relative bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl md:rounded-3xl overflow-hidden hover:shadow-2xl hover:border-neon-cyan/50 dark:hover:border-neon-cyan/30 transition-all duration-500 flex flex-col h-full hover:-translate-y-2"
@@ -256,7 +287,7 @@ const Projects: React.FC = () => {
       <div className="text-center">
         <button
           type="button"
-          className="inline-flex items-center justify-center gap-2 px-6 py-3 border-2 border-slate-900 dark:border-white text-slate-900 dark:text-white font-bold rounded-xl hover:bg-slate-900 hover:text-white dark:hover:bg-white dark:hover:text-slate-900 transition-all duration-300 transform hover:scale-105 text-sm cursor-pointer focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-slate-900 dark:focus:ring-white"
+          className=" inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl border border-slate-200 dark:border-slate-700 bg-white/50 dark:bg-slate-800/50 backdrop-blur-sm text-slate-700 dark:text-slate-200 font-semibold hover:bg-slate-100 dark:hover:bg-slate-800 transition-all hover:scale-105 active:scale-95"
         >
           View All Projects
           <ArrowRight size={20} />

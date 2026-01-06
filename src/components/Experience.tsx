@@ -40,7 +40,7 @@ const Experience: React.FC = () => {
 
               {/* Center Node */}
               <div className="absolute left-2.5 md:left-1/2 top-0 w-4 h-4 rounded-full text-slate-500  bg-slate-200 dark:bg-slate-950 border-2 border-neon-cyan shadow-[rgba(6,182,212,0.4)] md:-translate-x-1/2 transform translate-y-2 z-10">
-                <div className="absolute inset-0 bg-neon-cyan opacity-50 rounded-full  bg-teal-100 text-teal-800 dark:bg-teal-800/30 dark:text-teal-500" />
+                <div className="absolute inset-0 bg-neon-cyan opacity-50 rounded-full  bg-teal-100 text-teal-800 dark:bg-teal-100 dark:text-teal-500" />
               </div>
 
               {/* Content Card */}
