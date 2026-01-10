@@ -1,21 +1,20 @@
 {
   "name": "Dinakaran Dev Portfolio",
-  "short_name": "Danny",
-  "description": "Portfolio of Dinakaran Dev - Frontend Developer & DevOps Engineer",
+  "short_name": "Dinakaran",
+  "description": "Portfolio of Dinakaran Dev - Frontend Developer & DevOps Engineer specializing in React, Next.js, and Cloud Technologies",
   "start_url": "/",
+  "scope": "/",
   "display": "standalone",
+  "orientation": "any",
   "background_color": "#020617",
   "theme_color": "#06b6d4",
+  "categories": ["portfolio", "developer", "technology"],
   "icons": [
     {
       "src": "/logo.svg",
-      "sizes": "192x192",
-      "type": "image/svg"
-    },
-    {
-      "src": "/logo.svg",
-      "sizes": "512x512",
-      "type": "image/svg"
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
     }
   ]
 }

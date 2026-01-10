@@ -44,7 +44,7 @@ const Home: React.FC = () => (
 const App: React.FC = () => {
   const { theme, toggleTheme } = useTheme();
   return (
-    <div className="min-h-screen bg-slate-50 dark:bg-slate-950 overflow-x-hidden selection:bg-neon-cyan/30 transition-colors duration-300">
+    <>
       <Navbar theme={theme} toggleTheme={toggleTheme} />
       <ScrollToTop />
       <Routes>
@@ -53,7 +53,7 @@ const App: React.FC = () => {
         <Route path="/project/:id" element={<ProjectDetail />} /> */}
       </Routes>
       <Footer />
-    </div>
+    </>
   );
 };
 export default App;

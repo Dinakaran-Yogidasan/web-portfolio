@@ -4,7 +4,6 @@ import { BrowserRouter } from "react-router-dom";
 import "./index.css";
 import App from "./App.tsx";
 import ErrorBoundary from "./components/ErrorBoundary.tsx";
-import { reportWebVitals } from "./utils/web-vitals";
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
@@ -15,14 +14,3 @@ createRoot(document.getElementById("root")!).render(
     </ErrorBoundary>
   </StrictMode>
 );
-
-// Report Web Vitals metrics to console in development only
-if (import.meta.env.DEV) {
-  reportWebVitals((metric) => {
-    console.log(
-      `${metric.name}:`,
-      metric.value.toFixed(2),
-      `(${metric.rating})`
-    );
-  });
-}

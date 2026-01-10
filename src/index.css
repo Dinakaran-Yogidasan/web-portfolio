@@ -1,133 +1,28 @@
 @import "tailwindcss";
-@custom-variant dark (&:where(.dark, .dark *));
-/* * {
-    border: red 0.5px dotted;
-} */
 
-@keyframes fadeInUp {
-    from {
-        opacity: 0;
-        transform: translateY(20px);
-    }
+@custom-variant dark (&:is(.dark *));
 
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+@theme {
+    --color-primary: oklch(62.3% 0.214 259.815);
+    --color-secondary: oklch(68.5% 0.169 237.323);
+    --color-bg-page: oklch(98.5% 0 0);
+    --color-bg-card: #f4f4f5;
+    --color-text-title: #09090b;
+    --color-text-body: #3f3f46;
+    --color-border: #e4e4e7;
 }
 
-@keyframes fadeInDown {
-    from {
-        opacity: 0;
-        transform: translateY(-20px);
+@layer base {
+    .dark {
+        --color-primary: oklch(62.3% 0.214 259.815);
+        --color-bg-page: oklch(20.8% 0.042 265.755);
+        --color-bg-card: oklch(37.2% 0.044 257.287);
+        --color-text-title: #ffffff;
+        --color-text-body: oklch(96.8% 0.007 247.896);
+        --color-border: oklch(44.6% 0.043 257.281);
     }
 
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-@keyframes fadeInRight {
-    from {
-        opacity: 0;
-        transform: translateX(20px);
-    }
-
-    to {
-        opacity: 1;
-        transform: translateX(0);
-    }
-}
-
-@keyframes fadeInLeft {
-    from {
-        opacity: 0;
-        transform: translateX(-20px);
-    }
-
-    to {
-        opacity: 1;
-        transform: translateX(0);
-    }
-}
-
-@layer utilities {
-    @keyframes fadeInUp {
-        from {
-            opacity: 0;
-            transform: translateY(20px);
-        }
-
-        to {
-            opacity: 1;
-            transform: translateY(0);
-        }
-    }
-
-    @keyframes fadeInDown {
-        from {
-            opacity: 0;
-            transform: translateY(-20px);
-        }
-
-        to {
-            opacity: 1;
-            transform: translateY(0);
-        }
-    }
-
-    @keyframes fadeInRight {
-        from {
-            opacity: 0;
-            transform: translateX(20px);
-        }
-
-        to {
-            opacity: 1;
-            transform: translateX(0);
-        }
-    }
-
-    @keyframes fadeInLeft {
-        from {
-            opacity: 0;
-            transform: translateX(-20px);
-        }
-
-        to {
-            opacity: 1;
-            transform: translateX(0);
-        }
-    }
-
-    .animate-fadeInUp {
-        animation: fadeInUp 0.8s ease-out forwards;
-        opacity: 0;
-    }
-
-    .animate-fadeInDown {
-        animation: fadeInDown 0.8s ease-out forwards;
-        opacity: 0;
-    }
-
-    .animate-fadeInRight {
-        animation: fadeInRight 0.8s ease-out forwards;
-        opacity: 0;
-    }
-
-    .animate-fadeInLeft {
-        animation: fadeInLeft 0.8s ease-out forwards;
-        opacity: 0;
-    }
-
-    @keyframes shimmer {
-        0% {
-            transform: translateX(-100%);
-        }
-
-        100% {
-            transform: translateX(100%);
-        }
+    body {
+        @apply bg-bg-page text-text-body transition-colors duration-300 antialiased;
     }
 }

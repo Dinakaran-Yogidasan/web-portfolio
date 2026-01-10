@@ -6,13 +6,9 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
-    "build:analyze": "tsc -b && vite build --mode analyze",
     "lint": "eslint .",
-    "lint:fix": "eslint . --fix",
     "preview": "vite preview",
-    "type-check": "tsc -b --noEmit",
-    "audit": "npm audit --production",
-    "audit:fix": "npm audit fix"
+    "type-check": "tsc -b --noEmit"
   },
   "dependencies": {
     "@emailjs/browser": "^4.4.1",

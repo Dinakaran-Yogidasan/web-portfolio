@@ -1,6 +1,6 @@
 import { Cpu, Globe, Zap, Linkedin, Github } from "lucide-react";
 import type { Project, Experience } from "../types.ts";
-import userLogo from "../assets/images/userLogo.jpg"; // add this
+import userLogo from "../assets/images/userLogo.jpg";
 export const portfolioData = {
   navLinks: [
     { name: "About", href: "#about" },
@@ -12,7 +12,7 @@ export const portfolioData = {
   work: "Available for work",
   name: "Dinakaran Yogidasan",
   title: "Frontend Developer & DevOps Engineer",
-  bio: "I build seamless bridges between pixel-perfect React interfaces and resilient cloud infrastructure. With a focus on high-performance web apps, and efficient CI/CD workflows, I turn complex engineering challenges into elegant, reliable solutions",
+  bio: "building high-performance, scalable web applications with pixel-perfect UI and production-ready architecture.I specialize in modern React, frontend performance optimization, and CI/CD-driven deployments, delivering reliable, cloud-ready products that scale efficiently.",
   programmingLanguage: [
     { label: "Js", name: "JavaScript", color: "text-yellow-500" },
     { label: "Re", name: "React", color: "text-cyan-500" },
@@ -23,9 +23,13 @@ export const portfolioData = {
     subTitle: "Design & Deployment",
     titleBio:
       "Full-stack developer combining creative design with robust infrastructure",
-    bio: "I’m a passionate developer working at the intersection of frontend engineering and cloud infrastructure. With a strong foundation in ReactJS and modern JavaScript (ES6+), I build scalable, production-ready web applications that are both performant and user-centric.",
+    bio: "I’m a frontend-focused engineer working at the intersection of React.js development and cloud-native infrastructure. I build scalable, production-ready web applications using modern JavaScript (ES6+), with a strong focus on performance, accessibility, and user experience.",
     subBio:
-      "Beyond the UI, I bring DevOps expertise to ensure reliability and automation across the delivery pipeline. I have hands-on experience with CI/CD pipelines, GitHub Actions, and infrastructure-as-code, along with deploying and managing applications on AWS and GCP. I focus on architecting resilient systems that scale seamlessly from development to production.",
+      "On the frontend, I’ve improved page load times by 30–40% through code-splitting, memoization, and efficient state management, while maintaining clean, maintainable component architectures.",
+    description:
+      "Beyond the UI, I apply DevOps best practices to ensure reliability and automation across the delivery pipeline. I’ve designed and maintained CI/CD workflows using GitHub Actions, reducing manual deployment effort by 50%+ and enabling consistent, repeatable releases.",
+    shortDescription:
+      "I have hands-on experience deploying and operating applications on AWS and GCP, where I’ve improved environment reliability and reduced deployment-related issues by introducing infrastructure-as-code, automated rollbacks, and standardized release processes. My focus is on building resilient systems that scale smoothly from development to production.",
   },
   featureCards: [
     {
@@ -56,7 +60,7 @@ export const portfolioData = {
     subTitle: "Technologies & Tools",
     titleBio:
       " A comprehensive toolkit spanning full-stack development, cloud infrastructure, and security compliance.",
-    languages: ["JavaScript (ES6+)", "Java", "HTML5", "CSS3"],
+    languages: ["TypeScript", "JavaScript (ES6+)", "Java", "HTML5", "CSS3"],
     frontend: [
       "ReactJS",
       "Redux Toolkit",
@@ -218,6 +222,7 @@ export const portfolioData = {
     },
   ],
   footer: {
-    credit: "Designed & Built by Dinakaran Yogidasan",
+    credit:
+      "Merging artistic interface design with architectural engineering rigor.",
   },
 };
