@@ -9,8 +9,6 @@ A modern, production-ready React + Vite portfolio showcasing frontend developmen
 ✅ **Performance Optimized** - Code splitting, lazy loading, minification  
 ✅ **SEO Configured** - Comprehensive meta tags, structured data, sitemap
 
-See [PRODUCTION_READINESS_REPORT.md](PRODUCTION_READINESS_REPORT.md) for detailed status.
-
 ## Features
 
 ### Core Features
@@ -24,19 +22,19 @@ See [PRODUCTION_READINESS_REPORT.md](PRODUCTION_READINESS_REPORT.md) for detaile
 
 ### SEO & Performance
 
-- **Helmet-based meta**: Dynamic `<title>`, description, keywords, canonical, Open Graph, and Twitter tags via `react-helmet-async`
-- **Structured Data**: JSON-LD for `Person`, `WebSite`, and `ProfessionalService` schemas
-- **Base meta in HTML**: Fallback meta tags in `index.html` for crawlers
-- **Social previews**: OG/Twitter cards for rich link previews
-- **Web Vitals**: Core Web Vitals tracking and monitoring
+- **Meta Tags**: Comprehensive meta tags in `index.html` for SEO
+- **Structured Data**: JSON-LD support for rich snippets
+- **Base meta in HTML**: Optimized for search engine crawlers
+- **Social previews**: Open Graph & Twitter cards for rich link previews
+- **Web Vitals**: Core Web Vitals tracking and monitoring via `web-vitals.ts`
 - **Sitemap & Robots**: Configured for search engine optimization
 
 ### Production Features
 
-- 🔒 Environment variable management
+- 🔒 Environment variable management with type safety
 - 🛡️ Error boundaries for graceful error handling
 - 📦 Optimized code splitting and lazy loading
-- 🗜️ Minification with Terser (console.log removal)
+- 🗜️ Minification with Terser (console.log removal in production)
 - 🎯 CI/CD ready with GitHub Actions
 - 🔐 Security audit passed (0 vulnerabilities)
 
@@ -69,53 +67,129 @@ npm run build
 
 # Preview production build locally
 npm run preview
-
-# Build with bundle analysis
-npm run build:analyze
 ```
 
 ## Environment Variables
 
-Copy `.env.example` to `.env` and configure:
+Create a `.env` file with the following variables:
 
 ```env
 VITE_SITE_URL=https://techversey.com
+VITE_SITE_NAME=Dinakaran Dev
+VITE_SITE_DESCRIPTION=Frontend Developer & DevOps Engineer Portfolio
 VITE_EMAILJS_SERVICE_ID=your_service_id
 VITE_EMAILJS_TEMPLATE_ID=your_template_id
 VITE_EMAILJS_PUBLIC_KEY=your_public_key
 VITE_GA_TRACKING_ID=your_ga_id  # Optional
 ```
 
-**Important**: Never commit `.env` to version control.
+**Important**: Never commit `.env` to version control. Use `.gitignore` to exclude it.
 
-## SEO Usage
+## Project Structure
 
-### Global SEO
-
-Global defaults are applied in [src/App.tsx](src/App.tsx) using:
-
-- [src/components/seo/SEO.tsx](src/components/seo/SEO.tsx) - Meta tags
-- [src/components/seo/StructuredData.tsx](src/components/seo/StructuredData.tsx) - JSON-LD
-
-### Per-Page SEO
-
-See examples in [src/components/seo/SEOExamples.tsx](src/components/seo/SEOExamples.tsx):
-
-```tsx
-// Example: Projects page SEO
-import { ProjectsPageSEO } from "./components/seo/SEOExamples";
-
-export const Projects: React.FC = () => (
-  <section id="projects">
-    <ProjectsPageSEO />
-    {/* ...projects content... */}
-  </section>
-);
 ```
+├── public/                  # Static assets
+│   ├── sitemap.xml         # SEO sitemap
+│   ├── robots.txt          # Crawler configuration
+│   └── site.webmanifest    # PWA manifest
+├── src/
+│   ├── components/         # React components
+│   │   ├── ui/            # Reusable UI components
+│   │   ├── About.tsx
+│   │   ├── Contact.tsx
+│   │   ├── Experience.tsx
+│   │   ├── Footer.tsx
+│   │   ├── Hero.tsx
+│   │   ├── Navbar.tsx
+│   │   ├── Projects.tsx
+│   │   ├── Skills.tsx
+│   │   ├── Testimonials.tsx
+│   │   └── ErrorBoundary.tsx
+│   ├── data/              # Portfolio data & content
+│   │   └── portfolio.ts
+│   ├── hooks/             # Custom React hooks
+│   │   └── useTheme.ts
+│   ├── utils/             # Utility functions
+│   │   ├── web-vitals.ts
+│   │   ├── seo.ts
+│   │   ├── ScrollToTop.tsx
+│   │   └── RotatingJobTitle.tsx
+│   ├── assets/            # Images & media files
+│   ├── types.ts           # TypeScript type definitions
+│   ├── index.css          # Global styles
+│   ├── main.tsx           # Entry point
+│   └── App.tsx            # Root component
+├── .github/workflows/      # CI/CD configuration
+├── index.html             # HTML template
+├── vite.config.ts         # Vite configuration
+├── tsconfig.json          # TypeScript configuration
+├── package.json           # Dependencies & scripts
+├── DEPLOYMENT.md          # Deployment guide
+└── README.md              # This file
+```
+
+## Core Components
+
+### [`Hero.tsx`](src/components/Hero.tsx)
+
+Landing section with introduction, call-to-action buttons, and animated dashboard preview.
+
+### [`About.tsx`](src/components/About.tsx)
+
+About section with profile image, bio, feature cards, and experience statistics.
+
+### [`Skills.tsx`](src/components/Skills.tsx)
+
+Technical skills organized by categories: Languages, Frontend, DevOps, and Cloud/Security.
+
+### [`Projects.tsx`](src/components/Projects.tsx)
+
+Portfolio projects with filtering, modal preview, and live/source links.
+
+### [`Experience.tsx`](src/components/Experience.tsx)
+
+Professional timeline with job roles, companies, and key accomplishments.
+
+### [`Testimonials.tsx`](src/components/Testimonials.tsx)
+
+Client testimonials with ratings and avatars.
+
+### [`Contact.tsx`](src/components/Contact.tsx)
+
+Contact form with EmailJS integration and submission status feedback.
+
+## Key Utilities
+
+### [`web-vitals.ts`](src/utils/web-vitals.ts)
+
+Monitors Core Web Vitals metrics:
+
+- Largest Contentful Paint (LCP)
+- Cumulative Layout Shift (CLS)
+- First Input Delay (FID)
+- Page Load performance
+
+Metrics logged in development; sent to Google Analytics in production.
+
+### [`seo.ts`](src/utils/seo.ts)
+
+SEO utility functions for generating meta descriptions, keywords, and breadcrumb data.
+
+### [`useTheme.ts`](src/hooks/useTheme.ts)
+
+Custom hook for managing dark/light theme with localStorage persistence.
+
+### [`ScrollToTop.tsx`](src/utils/ScrollToTop.tsx)
+
+Floating scroll-to-top button with progress indicator.
+
+### [`RotatingJobTitle.tsx`](src/utils/RotatingJobTitle.tsx)
+
+Animated job title rotation component from portfolio data.
 
 ## Deployment
 
-See [DEPLOYMENT.md](DEPLOYMENT.md) for comprehensive deployment checklist.
+See [DEPLOYMENT.md](DEPLOYMENT.md) for a comprehensive pre-deployment checklist.
 
 ### Quick Deploy
 
@@ -135,63 +209,57 @@ npm run build
 # Set environment variables in Vercel dashboard
 ```
 
-#### GitHub Pages
+#### GitHub Actions
 
-Push to main branch - CI/CD pipeline will auto-deploy.
+Push to `main` branch - CI/CD pipeline automatically builds and validates.
 
-## Project Structure
+## SEO Optimization
 
-```
-├── public/              # Static assets
-│   ├── sitemap.xml     # SEO sitemap
-│   ├── robots.txt      # Crawler configuration
-│   └── site.webmanifest # PWA manifest
-├── src/
-│   ├── components/     # React components
-│   │   ├── seo/       # SEO-related components
-│   │   └── ui/        # Reusable UI components
-│   ├── data/          # Portfolio data
-│   ├── hooks/         # Custom React hooks
-│   ├── utils/         # Utility functions
-│   └── types.ts       # TypeScript types
-├── .env.example       # Environment variables template
-├── DEPLOYMENT.md      # Deployment guide
-├── SECURITY.md        # Security policy
-└── PRODUCTION_READINESS_REPORT.md  # Production status
-```
+- ✅ Meta tags configured in [`index.html`](index.html)
+- ✅ Open Graph tags for social sharing
+- ✅ Twitter Card tags for social media
+- ✅ Canonical URL set
+- ✅ Structured data in `index.html`
+- ✅ Sitemap at [`public/sitemap.xml`](public/sitemap.xml)
+- ✅ Robots.txt at [`public/robots.txt`](public/robots.txt)
+- ✅ Mobile-friendly responsive design
+- ✅ Semantic HTML structure
 
-## Web Vitals Monitoring
+## Performance Targets
 
-Core Web Vitals tracked via [src/utils/web-vitals.ts](src/utils/web-vitals.ts):
+- First Contentful Paint (FCP): < 1.8s
+- Largest Contentful Paint (LCP): < 2.5s
+- Cumulative Layout Shift (CLS): < 0.1
+- Bundle size: Optimized with code splitting
 
-- Largest Contentful Paint (LCP)
-- Cumulative Layout Shift (CLS)
-- First Input Delay (FID)
-- Page Load metrics
+## Theme System
 
-Metrics are logged in development. For production analytics:
+The portfolio supports light and dark themes:
 
-1. Set `VITE_GA_TRACKING_ID` in environment variables
-2. Analytics automatically enabled in production builds
-
-## Customization
-
-1. **Site metadata**: Update [src/components/seo/SEO.tsx](src/components/seo/SEO.tsx)
-2. **Portfolio data**: Edit [src/data/portfolio.ts](src/data/portfolio.ts)
-3. **Structured data**: Modify [src/components/seo/StructuredData.tsx](src/components/seo/StructuredData.tsx)
-4. **Base HTML**: Edit [index.html](index.html) for critical resources
+- Theme preference persisted to localStorage
+- Respects system color scheme preference
+- Smooth transitions between themes
+- Configured with CSS custom properties in [`index.css`](src/index.css)
 
 ## Technologies
 
-- React 19
-- TypeScript 5
-- Vite 7
-- Tailwind CSS 4
-- react-router-dom 7
-- react-helmet-async
-- EmailJS
-- Lucide React icons
+- **Framework**: React 19
+- **Language**: TypeScript 5.9
+- **Build Tool**: Vite 7.2
+- **Styling**: Tailwind CSS 4.1
+- **Routing**: React Router DOM 7.10
+- **Icons**: Lucide React 0.556
+- **Email**: EmailJS Browser 4.4
+- **CI/CD**: GitHub Actions
 
 ## License
 
-MIT
+MIT - See LICENSE file for details
+
+## Author
+
+**Dinakaran Yogidasan** - Frontend Developer & DevOps Engineer
+
+- 📧 Email: dannydina28@gmail.com
+- 🔗 GitHub: [github.com/Dinakaran-Yogidasan](https://github.com/Dinakaran-Yogidasan)
+- 💼 LinkedIn: [linkedin.com/in/dinakarany2899](https://www.linkedin.com/in/dinakarany2899/)

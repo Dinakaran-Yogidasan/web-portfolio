@@ -1,73 +1,263 @@
-import React, { useState } from "react";
-import Section from "./ui/Section";
+import React, { useState, useCallback, memo } from "react";
 import { Mail, Send, MapPin, CheckCircle } from "lucide-react";
 import emailjs from "@emailjs/browser";
 import Title from "./ui/Title";
 import { portfolioData } from "../data/portfolio";
 
-const formFields = [
+// Constants
+const FORM_FIELDS = [
   { name: "firstName", label: "First Name", placeholder: "John", type: "text" },
   { name: "lastName", label: "Last Name", placeholder: "Doe", type: "text" },
-];
+] as const;
+
+const SUCCESS_MESSAGE_TIMEOUT = 5000;
+
+const INPUT_CLASSES =
+  "w-full px-4 py-3 rounded-lg bg-bg-card border border-border text-text-title placeholder-text-body focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neon-cyan transition-shadow";
+
+const SUBMIT_BUTTON_CLASSES =
+  "w-full px-8 py-4 rounded-full border border-border bg-primary text-white font-semibold transition-all flex items-center justify-center gap-2 hover:scale-105 active:scale-95";
+
+type FormData = {
+  firstName: string;
+  lastName: string;
+  email: string;
+  message: string;
+};
+
+type SubmitStatus = "idle" | "success" | "error";
+
+// Sub-components
+const ContactInfoCard = memo(
+  ({
+    icon: Icon,
+    label,
+    title,
+    subtitle,
+    href,
+  }: {
+    icon: React.ElementType;
+    label: string;
+    title: string;
+    subtitle?: string;
+    href?: string;
+  }) => {
+    const content = (
+      <>
+        <div className="p-3 bg-bg-card rounded-xl backdrop-blur-md">
+          <Icon
+            size={20}
+            className={Icon === Mail ? "text-neon-cyan" : "text-neon-purple"}
+          />
+        </div>
+        <div>
+          <p className="text-xs text-text-body uppercase tracking-wider mb-1">
+            {label}
+          </p>
+          <p className="font-medium text-lg text-text-title">{title}</p>
+          {subtitle && <p className="text-sm text-text-body">{subtitle}</p>}
+        </div>
+      </>
+    );
+
+    if (href) {
+      return (
+        <a
+          href={href}
+          className="flex items-start gap-4 hover:opacity-90 transition-opacity group"
+        >
+          {content}
+        </a>
+      );
+    }
+
+    return <div className="flex items-start gap-4">{content}</div>;
+  }
+);
+ContactInfoCard.displayName = "ContactInfoCard";
+
+const SocialLinks = memo(() => (
+  <div className="mt-10 sm:mt-12">
+    <p className="text-sm text-text-body mb-4">Connect with me</p>
+    <div className="flex flex-wrap gap-3">
+      {portfolioData.socialLinks.map((social, i) => {
+        const Icon = social.icon;
+        return (
+          <a
+            key={i}
+            href={social.href}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="p-3 rounded-lg border border-border bg-bg-card transition-colors flex items-center justify-center"
+            aria-label={`Visit my ${social.label}`}
+            title={`Visit my ${social.label}`}
+          >
+            <Icon size={20} />
+          </a>
+        );
+      })}
+    </div>
+  </div>
+));
+SocialLinks.displayName = "SocialLinks";
+
+const SuccessMessage = memo(({ onReset }: { onReset: () => void }) => (
+  <div
+    className="p-6 sm:p-8 md:p-10 rounded-3xl bg-linear-to-br from-green-50 to-emerald-50 dark:from-green-950 dark:to-emerald-950 border border-green-200 dark:border-green-800 shadow-xl text-center"
+    role="status"
+    aria-live="polite"
+  >
+    <div className="flex justify-center mb-6">
+      <CheckCircle className="text-green-600 dark:text-green-400" size={64} />
+    </div>
+    <h3 className="text-2xl md:text-3xl font-bold text-green-900 dark:text-green-100 mb-3">
+      Thank You! 🎉
+    </h3>
+    <p className="text-green-800 dark:text-green-200 mb-4 text-lg">
+      Your message has been sent successfully!
+    </p>
+    <p className="text-green-700 dark:text-green-300">
+      I appreciate you reaching out. I'll get back to you as soon as possible.
+    </p>
+    <button
+      onClick={onReset}
+      className="mt-6 px-6 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg transition-colors"
+      aria-label="Send another message, return to form"
+    >
+      Send Another Message
+    </button>
+  </div>
+));
+SuccessMessage.displayName = "SuccessMessage";
+
+const ErrorMessage = memo(() => (
+  <div
+    className="mb-6 p-4 bg-bg-card text-title rounded-lg border border-border"
+    role="alert"
+  >
+    Something went wrong. Please try again later.
+  </div>
+));
+ErrorMessage.displayName = "ErrorMessage";
+
+const FormField = memo(
+  ({
+    label,
+    name,
+    type,
+    placeholder,
+    value,
+    onChange,
+    isTextarea = false,
+  }: {
+    label: string;
+    name: string;
+    type: string;
+    placeholder: string;
+    value: string;
+    onChange: (
+      e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+    ) => void;
+    isTextarea?: boolean;
+  }) => (
+    <div className="space-y-2">
+      <label htmlFor={name} className="text-sm font-medium text-text-title">
+        {label}
+      </label>
+      {isTextarea ? (
+        <textarea
+          id={name}
+          name={name}
+          placeholder={placeholder}
+          value={value}
+          onChange={onChange}
+          required
+          rows={5}
+          className={`${INPUT_CLASSES} resize-none`}
+        />
+      ) : (
+        <input
+          type={type}
+          id={name}
+          name={name}
+          placeholder={placeholder}
+          value={value}
+          onChange={onChange}
+          required
+          className={INPUT_CLASSES}
+        />
+      )}
+    </div>
+  )
+);
+FormField.displayName = "FormField";
 
 const Contact: React.FC = () => {
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<FormData>({
     firstName: "",
     lastName: "",
     email: "",
     message: "",
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitStatus, setSubmitStatus] = useState<
-    "idle" | "success" | "error"
-  >("idle");
+  const [submitStatus, setSubmitStatus] = useState<SubmitStatus>("idle");
 
-  const handleInputChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
-  };
+  const handleInputChange = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+      const { name, value } = e.target;
+      setFormData((prev) => ({
+        ...prev,
+        [name]: value,
+      }));
+    },
+    []
+  );
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    setIsSubmitting(true);
-    const serviceId = import.meta.env.VITE_EMAILJS_SERVICE_ID;
-    const templateId = import.meta.env.VITE_EMAILJS_TEMPLATE_ID;
-    const publicKey = import.meta.env.VITE_EMAILJS_PUBLIC_KEY;
+  const resetForm = useCallback(() => {
+    setFormData({ firstName: "", lastName: "", email: "", message: "" });
+    setSubmitStatus("idle");
+  }, []);
 
-    if (!serviceId || !templateId || !publicKey) {
-      console.error("EmailJS configuration is missing");
-      setSubmitStatus("error");
-      setIsSubmitting(false);
-      return;
-    }
+  const handleSubmit = useCallback(
+    async (e: React.FormEvent<HTMLFormElement>) => {
+      e.preventDefault();
+      setIsSubmitting(true);
 
-    try {
-      emailjs.init(publicKey);
-      await emailjs.send(serviceId, templateId, {
-        from_name: `${formData.firstName} ${formData.lastName}`,
-        from_email: formData.email,
-        message: formData.message,
-      });
+      const serviceId = import.meta.env.VITE_EMAILJS_SERVICE_ID;
+      const templateId = import.meta.env.VITE_EMAILJS_TEMPLATE_ID;
+      const publicKey = import.meta.env.VITE_EMAILJS_PUBLIC_KEY;
 
-      setSubmitStatus("success");
-      setFormData({ firstName: "", lastName: "", email: "", message: "" });
-      setTimeout(() => setSubmitStatus("idle"), 5000);
-    } catch {
-      setSubmitStatus("error");
-    } finally {
-      setIsSubmitting(false);
-    }
-  };
+      if (!serviceId || !templateId || !publicKey) {
+        console.error("EmailJS configuration is missing");
+        setSubmitStatus("error");
+        setIsSubmitting(false);
+        return;
+      }
+
+      try {
+        emailjs.init(publicKey);
+        await emailjs.send(serviceId, templateId, {
+          from_name: `${formData.firstName} ${formData.lastName}`,
+          from_email: formData.email,
+          message: formData.message,
+        });
+
+        setSubmitStatus("success");
+        setFormData({ firstName: "", lastName: "", email: "", message: "" });
+        setTimeout(() => setSubmitStatus("idle"), SUCCESS_MESSAGE_TIMEOUT);
+      } catch {
+        setSubmitStatus("error");
+      } finally {
+        setIsSubmitting(false);
+      }
+    },
+    [formData]
+  );
 
   return (
-    <Section
+    <div
       id="contact"
-      className="py-26 md:py-24 relative overflow-hidden px-4 md:px-0"
+      className="py-20 px-4 md:px-8 max-w-7xl mx-auto md:py-24 relative overflow-hidden"
     >
       <Title
         title={portfolioData.contact.title}
@@ -77,188 +267,83 @@ const Contact: React.FC = () => {
       <div className="grid grid-cols-1 md:grid-cols-5 gap-6 sm:gap-8 lg:gap-10 max-w-6xl mx-auto">
         {/* Contact Info Side */}
         <div className="md:col-span-2 space-y-6 sm:space-y-8">
-          <div className="p-6 sm:p-8 rounded-3xl bg-linear-to-br from-white to-slate-50 dark:from-slate-900 dark:to-slate-800 text-slate-900 dark:text-white relative overflow-hidden shadow-2xl border border-slate-100 dark:border-slate-800">
+          <div className="p-6 sm:p-8 rounded-3xl bg-bg-card text-title relative overflow-hidden shadow-2xl border border-border">
             <div className="absolute bottom-0 left-0 w-32 h-32 bg-neon-purple rounded-full blur-[60px] opacity-20 -ml-10 -mb-10 pointer-events-none"></div>
 
-            <h3 className="text-2xl font-bold mb-6 relative z-10">
+            <h3 className="text-2xl font-bold mb-6 relative z-10 text-text-title">
               {portfolioData.contact.info}
             </h3>
 
             <div className="space-y-6 relative z-10">
-              <a
-                href="mailto:alex@example.com"
-                className="flex items-start gap-4 hover:opacity-90 transition-opacity group"
-              >
-                <div className="p-3 bg-slate-100 dark:bg-white/10 rounded-xl backdrop-blur-md">
-                  <Mail size={20} className="text-neon-cyan" />
-                </div>
-                <div>
-                  <p className="text-xs text-slate-500 dark:text-slate-300 uppercase tracking-wider mb-1">
-                    Email Me
-                  </p>
-                  <p className="font-medium text-lg text-slate-900 dark:text-white">
-                    {portfolioData.contact.gmail}
-                  </p>
-                </div>
-              </a>
-
-              <div className="flex items-start gap-4">
-                <div className="p-3 bg-slate-100 dark:bg-white/10 rounded-xl backdrop-blur-md">
-                  <MapPin size={20} className="text-neon-purple" />
-                </div>
-                <div>
-                  <p className="text-xs text-slate-500 dark:text-slate-300 uppercase tracking-wider mb-1">
-                    Location
-                  </p>
-                  <p className="font-medium text-lg text-slate-900 dark:text-white">
-                    {portfolioData.contact.location}
-                  </p>
-                  <p className="text-sm text-slate-600 dark:text-slate-400">
-                    Remote Available
-                  </p>
-                </div>
-              </div>
+              <ContactInfoCard
+                icon={Mail}
+                label="Email Me"
+                title={portfolioData.contact.gmail}
+                href={`mailto:${portfolioData.contact.gmail}`}
+              />
+              <ContactInfoCard
+                icon={MapPin}
+                label="Location"
+                title={portfolioData.contact.location}
+                subtitle="Remote Available"
+              />
             </div>
 
-            <div className="mt-10 sm:mt-12">
-              <p className="text-sm text-slate-600 dark:text-slate-400 mb-4">
-                Connect with me
-              </p>
-              <div className="flex flex-wrap gap-3">
-                {portfolioData.socialLinks.map((social, i) => {
-                  const Icon = social.icon;
-                  return (
-                    <a
-                      key={i}
-                      href={social.href}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="p-3 rounded-lg border border-slate-200 dark:border-white/10 bg-white hover:bg-slate-50 dark:bg-white/5 dark:hover:bg-white/10 transition-colors flex items-center justify-center"
-                      aria-label={`Visit my ${social.label}`}
-                      title={`Visit my ${social.label}`}
-                    >
-                      <Icon size={20} />
-                    </a>
-                  );
-                })}
-              </div>
-            </div>
+            <SocialLinks />
           </div>
         </div>
 
         {/* Form Side */}
         <div className="md:col-span-3">
           {submitStatus === "success" ? (
-            <div
-              className="p-6 sm:p-8 md:p-10 rounded-3xl bg-linear-to-br from-green-50 to-emerald-50 dark:from-green-950 dark:to-emerald-950 border border-green-200 dark:border-green-800 shadow-xl text-center"
-              role="status"
-              aria-live="polite"
-            >
-              <div className="flex justify-center mb-6">
-                <CheckCircle
-                  className="text-green-600 dark:text-green-400"
-                  size={64}
-                />
-              </div>
-              <h3 className="text-2xl md:text-3xl font-bold text-green-900 dark:text-green-100 mb-3">
-                Thank You! 🎉
-              </h3>
-              <p className="text-green-800 dark:text-green-200 mb-4 text-lg">
-                Your message has been sent successfully!
-              </p>
-              <p className="text-green-700 dark:text-green-300">
-                I appreciate you reaching out. I'll get back to you as soon as
-                possible.
-              </p>
-              <button
-                onClick={() => setSubmitStatus("idle")}
-                className="mt-6 px-6 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg transition-colors"
-                aria-label="Send another message, return to form"
-              >
-                Send Another Message
-              </button>
-            </div>
+            <SuccessMessage onReset={resetForm} />
           ) : (
             <form
               onSubmit={handleSubmit}
               noValidate
               autoComplete="off"
-              className="p-6 sm:p-8 md:p-10 rounded-3xl bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800 shadow-xl relative"
+              className="p-6 sm:p-8 md:p-10 rounded-3xl bg-bg-card border border-border shadow-xl relative"
             >
-              {submitStatus === "error" && (
-                <div
-                  className="mb-6 p-4 bg-red-100 dark:bg-red-900 text-red-700 dark:text-red-100 rounded-lg"
-                  role="alert"
-                >
-                  Something went wrong. Please try again later.
-                </div>
-              )}
+              {submitStatus === "error" && <ErrorMessage />}
+
               <div className="space-y-6">
                 <div className="grid md:grid-cols-2 gap-6">
-                  {formFields.map((field, i) => (
-                    <div key={i} className="space-y-2">
-                      <label
-                        htmlFor={field.name}
-                        className="text-sm font-medium text-slate-700 dark:text-slate-300"
-                      >
-                        {field.label}
-                      </label>
-                      <input
-                        type={field.type}
-                        id={field.name}
-                        name={field.name}
-                        placeholder={field.placeholder}
-                        value={formData[field.name as keyof typeof formData]}
-                        onChange={handleInputChange}
-                        required
-                        className="w-full px-4 py-3 rounded-lg bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white placeholder-slate-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neon-cyan transition-shadow"
-                      />
-                    </div>
+                  {FORM_FIELDS.map((field) => (
+                    <FormField
+                      key={field.name}
+                      label={field.label}
+                      name={field.name}
+                      type={field.type}
+                      placeholder={field.placeholder}
+                      value={formData[field.name]}
+                      onChange={handleInputChange}
+                    />
                   ))}
                 </div>
 
-                <div className="space-y-2">
-                  <label
-                    htmlFor="email"
-                    className="text-sm font-medium text-slate-700 dark:text-slate-300"
-                  >
-                    Email
-                  </label>
-                  <input
-                    type="email"
-                    id="email"
-                    name="email"
-                    placeholder="your@email.com"
-                    value={formData.email}
-                    onChange={handleInputChange}
-                    required
-                    className="w-full px-4 py-3 rounded-lg bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white placeholder-slate-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neon-cyan transition-shadow"
-                  />
-                </div>
+                <FormField
+                  label="Email"
+                  name="email"
+                  type="email"
+                  placeholder="your@email.com"
+                  value={formData.email}
+                  onChange={handleInputChange}
+                />
 
-                <div className="space-y-2">
-                  <label
-                    htmlFor="message"
-                    className="text-sm font-medium text-slate-700 dark:text-slate-300"
-                  >
-                    Message
-                  </label>
-                  <textarea
-                    id="message"
-                    name="message"
-                    placeholder="Your message..."
-                    value={formData.message}
-                    onChange={handleInputChange}
-                    required
-                    rows={5}
-                    className="w-full px-4 py-3 rounded-lg bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white placeholder-slate-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neon-cyan transition-shadow resize-none"
-                  />
-                </div>
+                <FormField
+                  label="Message"
+                  name="message"
+                  type="text"
+                  placeholder="Your message..."
+                  value={formData.message}
+                  onChange={handleInputChange}
+                  isTextarea
+                />
 
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="w-full px-8 py-4 rounded-full border border-slate-200 dark:border-slate-700 bg-white/50 dark:bg-slate-800/50 backdrop-blur-sm text-slate-700 dark:text-slate-200 font-semibold hover:bg-slate-100 dark:hover:bg-slate-800 transition-all flex items-center justify-center gap-2 hover:scale-105 active:scale-95"
+                  className={SUBMIT_BUTTON_CLASSES}
                   aria-label={
                     isSubmitting ? "Sending message" : "Send contact message"
                   }
@@ -271,7 +356,7 @@ const Contact: React.FC = () => {
           )}
         </div>
       </div>
-    </Section>
+    </div>
   );
 };
 

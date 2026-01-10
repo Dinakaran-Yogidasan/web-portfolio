@@ -1,63 +1,97 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+  Sitemap for Dinakaran Dev Portfolio
+  This file helps search engines discover and index all pages
+  Update lastmod dates when content changes
+  Reference: https://www.sitemaps.org/
+-->
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
         http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
   
-  <!-- Homepage -->
+  <!-- ============================================
+       Homepage - Entry point to the portfolio
+       Priority: Highest (1.0)
+       Change Frequency: Weekly (frequent updates)
+       ============================================ -->
   <url>
-    <loc>https://techversey.com/</loc>
-    <lastmod>2025-12-22</lastmod>
+    <loc>https://dinakaran.vercel.app/</loc>
+    <lastmod>2024-01-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   
-  <!-- About Section -->
+  <!-- ============================================
+       About Section - Personal background
+       Priority: High (0.9)
+       Change Frequency: Monthly
+       ============================================ -->
   <url>
-    <loc>https://techversey.com/#about</loc>
-    <lastmod>2025-12-22</lastmod>
+    <loc>https://dinakaran.vercel.app/#about</loc>
+    <lastmod>2024-01-15</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  
-  <!-- Skills Section -->
-  <url>
-    <loc>https://techversey.com/#skills</loc>
-    <lastmod>2025-12-22</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  
-  <!-- Projects Section -->
-  <url>
-    <loc>https://techversey.com/#projects</loc>
-    <lastmod>2025-12-22</lastmod>
-    <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   
-  <!-- Experience Section -->
+  <!-- ============================================
+       Skills Section - Technical expertise
+       Priority: High (0.9)
+       Change Frequency: Monthly (skills evolve)
+       ============================================ -->
   <url>
-    <loc>https://techversey.com/#experience</loc>
-    <lastmod>2025-12-22</lastmod>
+    <loc>https://dinakaran.vercel.app/#skills</loc>
+    <lastmod>2024-01-15</lastmod>
     <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  
+  <!-- ============================================
+       Projects Section - Portfolio projects
+       Priority: Very High (0.95)
+       Change Frequency: Weekly (new projects)
+       ============================================ -->
+  <url>
+    <loc>https://dinakaran.vercel.app/#projects</loc>
+    <lastmod>2024-01-15</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.95</priority>
+  </url>
+  
+  <!-- ============================================
+       Experience Section - Work history
+       Priority: High (0.8)
+       Change Frequency: Yearly (less frequent)
+       ============================================ -->
+  <url>
+    <loc>https://dinakaran.vercel.app/#experience</loc>
+    <lastmod>2024-01-15</lastmod>
+    <changefreq>yearly</changefreq>
     <priority>0.8</priority>
   </url>
   
-  <!-- Blog Section -->
+  <!-- ============================================
+       Blog Section - Articles & insights
+       Priority: Medium-High (0.8)
+       Change Frequency: Weekly (regular posts)
+       ============================================ -->
   <url>
-    <loc>https://techversey.com/#blog</loc>
-    <lastmod>2025-12-22</lastmod>
+    <loc>https://dinakaran.vercel.app/#blog</loc>
+    <lastmod>2024-01-15</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
+    <priority>0.8</priority>
   </url>
   
-  <!-- Contact Section -->
+  <!-- ============================================
+       Contact Section - Get in touch
+       Priority: Medium (0.7)
+       Change Frequency: Yearly
+       ============================================ -->
   <url>
-    <loc>https://techversey.com/#contact</loc>
-    <lastmod>2025-12-22</lastmod>
+    <loc>https://dinakaran.vercel.app/#contact</loc>
+    <lastmod>2024-01-15</lastmod>
     <changefreq>yearly</changefreq>
-    <priority>0.6</priority>
+    <priority>0.7</priority>
   </url>
 
 </urlset>

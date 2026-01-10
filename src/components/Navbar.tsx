@@ -1,7 +1,12 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback, useMemo } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { Menu, X, Sun, Moon } from "lucide-react";
 import { portfolioData } from "../data/portfolio";
+
+// Constants
+const SCROLL_THRESHOLD = 20;
+const SCROLL_RETRY_DELAY = 50;
+
 interface NavbarProps {
   theme: "light" | "dark";
   toggleTheme: () => void;
@@ -13,90 +18,104 @@ const Navbar: React.FC<NavbarProps> = ({ theme, toggleTheme }) => {
   const navigate = useNavigate();
   const location = useLocation();
 
+  // Handle scroll events
   useEffect(() => {
     const handleScroll = () => {
-      setScrolled(window.scrollY > 20);
+      setScrolled(window.scrollY > SCROLL_THRESHOLD);
     };
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // Smooth-scroll to hash when route or hash changes (waits until element exists)
+  // Smooth-scroll to hash when route or hash changes
   useEffect(() => {
     if (!location.hash) return;
-    const target = location.hash;
+
     const tryScroll = () => {
-      const el = document.querySelector(target);
+      const el = document.querySelector(location.hash);
       if (el) {
         el.scrollIntoView({ behavior: "smooth", block: "start" });
         return;
       }
-      // Retry briefly if content hasn't mounted yet
-      setTimeout(tryScroll, 50);
+      setTimeout(tryScroll, SCROLL_RETRY_DELAY);
     };
     tryScroll();
   }, [location.pathname, location.hash]);
 
-  const handleNavClick = (
-    e: React.MouseEvent<HTMLAnchorElement>,
-    href: string
-  ): void => {
-    e.preventDefault();
-    setIsOpen(false);
+  // Memoized navigation handler
+  const handleNavClick = useCallback(
+    (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+      e.preventDefault();
+      setIsOpen(false);
 
-    if (href.startsWith("#")) {
-      // Push /#section so the effect above can handle scrolling
-      navigate({ pathname: "/", hash: href });
-    } else {
-      navigate(href);
-    }
-  };
+      if (href.startsWith("#")) {
+        navigate({ pathname: "/", hash: href });
+      } else {
+        navigate(href);
+      }
+    },
+    [navigate]
+  );
+
+  // Memoized logo click handler
+  const handleLogoClick = useCallback(() => {
+    navigate("/");
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }, [navigate]);
+
+  const themeToggleAriaLabel = useMemo(
+    () => `Switch to ${theme === "dark" ? "light" : "dark"} mode`,
+    [theme]
+  );
+
+  const ThemeIcon = theme === "dark" ? Sun : Moon;
+
+  const navbarBgClass = scrolled
+    ? "py-0 bg-bg-page/90 border-b border-border backdrop-blur-md shadow-sm"
+    : "py-4 bg-transparent";
 
   return (
     <nav
-      className={`fixed top-0 w-full z-50 transition-all duration-500 ${
-        scrolled
-          ? "py-0 bg-white/80 dark:bg-slate-950/80 backdrop-blur-xl border-b border-slate-200/50 dark:border-slate-800/50 shadow-lg shadow-slate-200/50 dark:shadow-slate-900/50"
-          : "py-2 sm:py-6 bg-transparent"
-      }`}
+      className={`fixed top-0 w-full z-50 transition-all duration-300 ${navbarBgClass}`}
     >
       <div className="mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-14 sm:h-16">
           {/* Logo */}
           <div
-            className="shrink-0 flex items-center gap-2 sm:gap-3 cursor-pointer group"
-            onClick={() => {
-              navigate("/");
-              window.scrollTo({ top: 0, behavior: "smooth" });
+            className="shrink-0 flex items-center gap-2 sm:gap-3 cursor-pointer"
+            onClick={handleLogoClick}
+            role="button"
+            tabIndex={0}
+            onKeyDown={(e) => {
+              if (e.key === "Enter" || e.key === " ") {
+                handleLogoClick();
+              }
             }}
+            aria-label="Home"
           >
-            <div className="relative">
-              <div className="absolute inset-0 bg-linear-to-r  to-blue-500/30 rounded-xl blur-lg group-hover:blur-xl transition-all duration-300" />
-              <img
-                src="/logo.svg"
-                alt="Danny.Dev logo"
-                className="rounded-xl w-9 h-9 sm:w-10 sm:h-10 relative z-10 transform group-hover:scale-110 transition-transform duration-300"
-                loading="lazy"
-                decoding="async"
-              />
-            </div>
-            <span className="font-display font-bold text-lg sm:text-xl tracking-tight text-slate-900 dark:text-white transition-colors duration-300">
-              Dinakaran Yogidasan
+            <img
+              src="/logo.svg"
+              alt="Danny.Dev logo"
+              className="rounded-xl w-9 h-9 sm:w-10 sm:h-10"
+              loading="lazy"
+              decoding="async"
+            />
+            <span className="font-display font-bold text-lg sm:text-xl text-text-title">
+              DY
             </span>
           </div>
 
           {/* Desktop Nav */}
           <div className="hidden lg:flex items-center gap-6">
-            <div className="flex items-center gap-2 bg-white/60 dark:bg-slate-900/60 backdrop-blur-md px-2 py-1 rounded-full border border-slate-200/60 dark:border-slate-700/60 shadow-lg shadow-slate-200/50 dark:shadow-slate-900/50">
+            <div className="flex items-center gap-1">
               {portfolioData.navLinks.map((link) => (
                 <a
                   key={link.name}
                   href={link.href}
-                  onClick={(e: never) => handleNavClick(e, link.href)}
-                  className="relative px-5 py-2 rounded-full text-sm font-semibold text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white transition-all duration-300 cursor-pointer group/link"
+                  onClick={(e) => handleNavClick(e, link.href)}
+                  className="px-4 py-2 rounded-lg text-sm font-medium text-text-body hover:text-primary  transition-colors duration-200"
                 >
-                  <span className="relative z-10">{link.name}</span>
-                  <span className="absolute inset-0 bg-linear-to-r from-white to-slate-50 dark:from-slate-800 dark:to-slate-700 rounded-full opacity-0 group-hover/link:opacity-100 transition-opacity duration-300" />
+                  {link.name}
                 </a>
               ))}
             </div>
@@ -104,29 +123,23 @@ const Navbar: React.FC<NavbarProps> = ({ theme, toggleTheme }) => {
             <div className="flex items-center gap-3">
               <button
                 onClick={toggleTheme}
-                className="p-2.5 rounded-full bg-slate-100/80 dark:bg-slate-800/80 hover:bg-slate-200 dark:hover:bg-slate-700 transition-all duration-300 group/theme relative overflow-hidden"
-                aria-label={`Switch to ${
-                  theme === "dark" ? "light" : "dark"
-                } mode`}
-                title={`Switch to ${theme === "dark" ? "light" : "dark"} mode`}
+                className="p-2 rounded-lg hover:bg-bg-card transition-colors duration-200"
+                aria-label={themeToggleAriaLabel}
+                title={themeToggleAriaLabel}
               >
-                <span className="relative z-10 block transform group-hover/theme:scale-110 transition-transform duration-300">
-                  {theme === "dark" ? (
-                    <Sun size={20} className="text-yellow-400" />
-                  ) : (
-                    <Moon
-                      size={20}
-                      className="text-slate-600 dark:text-slate-400"
-                    />
-                  )}
-                </span>
+                <ThemeIcon
+                  size={20}
+                  className={
+                    theme === "dark" ? "text-yellow-500" : "text-text-body"
+                  }
+                />
               </button>
               <a
                 href="#contact"
                 onClick={(e) => handleNavClick(e, "#contact")}
-                className="relative px-6 py-2.5 rounded-full bg-linear-to-r from-slate-900 to-slate-800 dark:from-white dark:to-slate-100 text-white dark:text-slate-900 text-sm font-bold overflow-hidden group/cta transition-all duration-300 hover:shadow-xl hover:shadow-neon-cyan/30 dark:hover:shadow-neon-cyan/20"
+                className="px-5 py-2 rounded-lg bg-primary text-white text-sm font-medium hover:opacity-90 transition-opacity duration-200"
               >
-                <span className="relative z-10">Hire Me</span>
+                Hire Me
               </a>
             </div>
           </div>
@@ -135,40 +148,25 @@ const Navbar: React.FC<NavbarProps> = ({ theme, toggleTheme }) => {
           <div className="lg:hidden flex items-center gap-3">
             <button
               onClick={toggleTheme}
-              className="p-2 rounded-full bg-slate-100/80 dark:bg-slate-800/80 hover:bg-slate-200 dark:hover:bg-slate-700 transition-all duration-300"
-              aria-label={`Switch to ${
-                theme === "dark" ? "light" : "dark"
-              } mode`}
-              title={`Switch to ${theme === "dark" ? "light" : "dark"} mode`}
+              className="p-2 rounded-lg hover:bg-bg-card transition-colors duration-200"
+              aria-label={themeToggleAriaLabel}
             >
-              {theme === "dark" ? (
-                <Sun size={18} className="text-yellow-400" />
-              ) : (
-                <Moon size={18} className="text-slate-600" />
-              )}
+              <ThemeIcon
+                size={18}
+                className={
+                  theme === "dark" ? "text-yellow-500" : "text-text-body"
+                }
+              />
             </button>
             <button
               onClick={() => setIsOpen(!isOpen)}
-              className="p-2 rounded-lg text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 focus:outline-none focus:ring-2 focus:ring-neon-cyan/50 transition-all duration-300"
+              className="p-2 rounded-lg text-text-title hover:bg-bg-card transition-colors duration-200"
               aria-label={
                 isOpen ? "Close navigation menu" : "Open navigation menu"
               }
               aria-expanded={isOpen}
             >
-              <span className="sr-only">
-                {isOpen ? "Close menu" : "Open menu"}
-              </span>
-              {isOpen ? (
-                <X
-                  size={20}
-                  className="transform rotate-0 transition-transform duration-300"
-                />
-              ) : (
-                <Menu
-                  size={20}
-                  className="transform rotate-0 transition-transform duration-300"
-                />
-              )}
+              {isOpen ? <X size={20} /> : <Menu size={20} />}
             </button>
           </div>
         </div>
@@ -176,31 +174,28 @@ const Navbar: React.FC<NavbarProps> = ({ theme, toggleTheme }) => {
 
       {/* Mobile Menu */}
       <div
-        className={`lg:hidden overflow-hidden transition-all duration-500 ease-in-out ${
+        className={`lg:hidden transition-all duration-300 ease-in-out ${
           isOpen
             ? "max-h-96 opacity-100"
             : "max-h-0 opacity-0 pointer-events-none"
         }`}
       >
-        <div className="bg-white/95 dark:bg-slate-950/95 backdrop-blur-xl border-b border-slate-200 dark:border-slate-800 shadow-2xl">
+        <div className="bg-bg-page/95 backdrop-blur-md border-b border-border">
           <div className="px-4 pt-4 pb-6 space-y-1">
-            {portfolioData.navLinks.map((link, index) => (
+            {portfolioData.navLinks.map((link) => (
               <a
                 key={link.name}
                 href={link.href}
-                onClick={(e: never) => handleNavClick(e, link.href)}
-                className="block px-5 py-3 rounded-xl text-base font-semibold text-slate-700 dark:text-slate-300 hover:text-neon-cyan dark:hover:text-neon-cyan hover:bg-slate-100/80 dark:hover:bg-slate-900/80 transition-all duration-300 transform hover:translate-x-1"
-                style={{
-                  animationDelay: `${index * 50}ms`,
-                }}
+                onClick={(e) => handleNavClick(e, link.href)}
+                className="block px-4 py-3 rounded-lg text-base font-medium text-text-body hover:text-primary hover:bg-bg-card transition-colors duration-200"
               >
                 {link.name}
               </a>
             ))}
             <a
               href="#contact"
-              onClick={(e: never) => handleNavClick(e, "#contact")}
-              className="block mt-4 px-5 py-3.5 rounded-xl bg-linear-to-r from-slate-900 to-slate-800 dark:from-white dark:to-slate-100 text-white dark:text-slate-900 font-bold text-center transition-all duration-300 hover:shadow-lg hover:shadow-neon-cyan/30 transform hover:scale-[1.02]"
+              onClick={(e) => handleNavClick(e, "#contact")}
+              className="block mt-4 px-4 py-3 rounded-lg bg-primary text-white font-medium text-center hover:opacity-90 transition-opacity duration-200"
             >
               Let's Talk
             </a>

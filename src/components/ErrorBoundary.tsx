@@ -22,11 +22,7 @@ class ErrorBoundary extends Component<Props, State> {
   }
 
   public componentDidCatch(error: Error, errorInfo: ErrorInfo) {
-    // Log error to error reporting service in production
-    if (import.meta.env.PROD) {
-      // Send to error tracking service (e.g., Sentry, LogRocket)
-      console.error("Error caught by boundary:", error, errorInfo);
-    }
+    console.error("Error caught by boundary:", error, errorInfo);
   }
 
   private handleReset = () => {

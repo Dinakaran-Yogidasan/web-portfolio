@@ -1,13 +1,33 @@
-# https://www.robotstxt.org/robotstxt.html
+# ============================================
+# Robots.txt Configuration
+# ============================================
+# This file tells search engine crawlers which pages or files
+# they can or can't request from your site.
+# Reference: https://www.robotstxt.org/robotstxt.html
+
+# ============================================
+# Global Rules (All Crawlers)
+# ============================================
 User-agent: *
 Allow: /
 
-# Disallow specific paths if needed
+# ============================================
+# Restricted Paths
+# ============================================
+# Uncomment and add paths you want to block from crawlers
 # Disallow: /admin/
 # Disallow: /private/
+# Disallow: /api/
 
-# Sitemap location
-Sitemap: https://techversey.com/sitemap.xml
+# ============================================
+# Sitemap Location
+# ============================================
+# Helps search engines discover and index your pages
+Sitemap: https://dinakaran.vercel.app/sitemap.xml
 
-# Crawl-delay for politeness (optional)
+# ============================================
+# Crawl Settings
+# ============================================
+# Crawl-delay: Sets a delay (in seconds) between crawler requests
+# This helps prevent server overload
 Crawl-delay: 1

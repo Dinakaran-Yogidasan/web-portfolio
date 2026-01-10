@@ -20,23 +20,5 @@ export interface Experience {
 export interface Skill {
   name: string;
   icon: React.ReactNode;
-  level: number; // 0-100
 }
 
-export interface BlogPost {
-  id: string;
-  title: string;
-  excerpt: string;
-  date: string;
-  readTime: string;
-  category: "Frontend" | "DevOps" | "System Design";
-  imageUrl: string;
-  slug: string;
-}
-
-export interface Message {
-  id: string;
-  role: "user" | "model";
-  text: string;
-  isThinking?: boolean;
-}
