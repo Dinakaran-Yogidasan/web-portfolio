@@ -13,7 +13,7 @@ const FORM_FIELDS = [
 const SUCCESS_MESSAGE_TIMEOUT = 5000;
 
 const INPUT_CLASSES =
-  "w-full px-4 py-3 rounded-lg bg-bg-card border border-border text-text-title placeholder-text-body focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neon-cyan transition-shadow";
+  "w-full px-4 py-3 rounded-lg bg-bg-card border border-border text-text-title placeholder-text-body transition-shadow";
 
 const SUBMIT_BUTTON_CLASSES =
   "w-full px-8 py-4 rounded-full border border-border bg-primary text-white font-semibold transition-all flex items-center justify-center gap-2 hover:scale-105 active:scale-95";
@@ -88,7 +88,7 @@ const SocialLinks = memo(() => (
             href={social.href}
             target="_blank"
             rel="noopener noreferrer"
-            className="p-3 rounded-lg border border-border bg-bg-card transition-colors flex items-center justify-center"
+            className="p-3 rounded-lg border border-border bg-bg-card transition-colors flex items-center justify-center hover:border-sky-500"
             aria-label={`Visit my ${social.label}`}
             title={`Visit my ${social.label}`}
           >

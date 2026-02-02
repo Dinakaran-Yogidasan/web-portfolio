@@ -27,7 +27,7 @@ export const portfolioData = {
     subBio:
       "On the frontend, I’ve improved page load times by 30–40% through code-splitting, memoization, and efficient state management, while maintaining clean, maintainable component architectures.",
     description:
-      "Beyond the UI, I apply DevOps best practices to ensure reliability and automation across the delivery pipeline. I’ve designed and maintained CI/CD workflows using GitHub Actions, reducing manual deployment effort by 50%+ and enabling consistent, repeatable releases.",
+      "Beyond the UI, I apply DevOps best practices to ensure reliability and automation across the delivery pipeline. I’ve designed and maintained CI/CD workflows using GitHub Actions, reducing manual deployment effort by 50% and enabling consistent, repeatable releases.",
     shortDescription:
       "I have hands-on experience deploying and operating applications on AWS and GCP, where I’ve improved environment reliability and reduced deployment-related issues by introducing infrastructure-as-code, automated rollbacks, and standardized release processes. My focus is on building resilient systems that scale smoothly from development to production.",
   },
@@ -100,14 +100,14 @@ export const portfolioData = {
   projects: [
     {
       id: "1",
-      title: "Nebula Dashboard",
-      description:
-        "A real-time analytics dashboard for cloud metrics using React, D3.js, and WebSockets.",
-      tags: ["React", "TypeScript", "D3.js", "AWS Lambda"],
-      imageUrl: "https://picsum.photos/600/400?random=1",
-      category: "Frontend",
-      liveUrl: "#",
-      githubUrl: "#",
+      title: "Docura",
+      description: "A one way documentation for all technologies.",
+      tags: ["React", "TypeScript", "Vite", "GCP"],
+      imageUrl:
+        "https://res.cloudinary.com/dj4rnfnnz/image/upload/v1769989681/screencapture-docura-mu-vercel-app-2026-02-02-05_16_09_gxgaae.png",
+      category: "Fullstack",
+      liveUrl: "https://docura-mu.vercel.app/",
+      githubUrl: "https://github.com/Dinakaran-Yogidasan/Docura",
     },
     {
       id: "2",
@@ -117,18 +117,19 @@ export const portfolioData = {
       tags: ["Go", "Terraform", "Docker", "K8s"],
       imageUrl: "https://picsum.photos/600/400?random=3",
       category: "DevOps",
-      githubUrl: "#",
+      githubUrl:
+        "https://github.com/Dinakaran-Yogidasan/gitHub-Actions/blob/main/.github/workflows/checkmarx_scan.yaml",
     },
     {
       id: "3",
-      title: "E-Commerce Microservices",
-      description:
-        "Fully containerized e-commerce platform with event-driven architecture.",
-      tags: ["Node.js", "RabbitMQ", "Docker Compose", "React"],
-      imageUrl: "https://picsum.photos/600/400?random=5",
-      category: "Fullstack",
-      liveUrl: "#",
-      githubUrl: "#",
+      title: "Portfolio",
+      description: "Fully containerized portfolio with custom animations",
+      tags: ["Vercel", "ReactJS", "TypeScript", "Node.js"],
+      imageUrl:
+        "https://res.cloudinary.com/dj4rnfnnz/image/upload/v1769989899/Screenshot_2026-02-02_at_5.21.28_AM_jv2kxj.png",
+      category: "Frontend",
+      liveUrl: "https://dinakaran.vercel.app/",
+      githubUrl: "https://github.com/Dinakaran-Yogidasan/web-portfolio",
     },
     {
       id: "4",
@@ -138,7 +139,8 @@ export const portfolioData = {
       tags: ["Python", "OPA", "GitHub Actions"],
       imageUrl: "https://picsum.photos/600/400?random=8",
       category: "DevOps",
-      githubUrl: "#",
+      githubUrl:
+        "https://github.com/Dinakaran-Yogidasan/gitHub-Actions/blob/main/.github/workflows/checkmarx_scan.yaml",
     },
   ] as Project[],
 

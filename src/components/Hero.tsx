@@ -230,14 +230,14 @@ const Hero: React.FC = () => {
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
               <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500"></span>
             </span>
-            <span className="text-xs font-bold tracking-widest dark:text-text-title text-text-body uppercase">
+            <span className="text-xs font-extrabold tracking-widest dark:text-text-title text-text-body uppercase">
               {portfolioData.work}
             </span>
           </div>
 
           {/* Heading */}
           <h1
-            className="text-4xl sm:text-5xl lg:text-6xl font-display font-bold tracking-tight text-title dark:text-text-title leading-[1.1] mb-6 animate-fadeInUp"
+            className="text-4xl sm:text-5xl font-display font-bold tracking-tight text-title dark:text-text-title leading-[1.1] mb-6 animate-fadeInUp"
             itemProp="name"
             style={{ animationDelay: ANIMATION_DELAYS.title }}
           >
