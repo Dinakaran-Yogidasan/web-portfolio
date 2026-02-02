@@ -58,11 +58,15 @@ BrandSection.displayName = "BrandSection";
 const NavigationLink = memo(
   ({ href, label }: { href: string; label: string }) => (
     <li className="mb-6 last:mb-0">
-      <a href={href} target="_blank" rel="noopener noreferrer" className="hover:text-primary transition-colors">
+      <a
+        href={href}
+        rel="noopener noreferrer"
+        className="hover:text-primary transition-colors"
+      >
         {label}
       </a>
     </li>
-  )
+  ),
 );
 NavigationLink.displayName = "NavigationLink";
 

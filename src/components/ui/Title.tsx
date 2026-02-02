@@ -13,7 +13,7 @@ const Title: React.FC<{
           <br />
           <span className="block text-primary">{subTitle}</span>
         </h2>
-        <p className="text-lg text-text-body max-w-2xl mx-auto">{titleBio}</p>
+        <p className="text-lg font-medium text-text-body max-w-2xl mx-auto">{titleBio}</p>
       </div>
     </>
   );
