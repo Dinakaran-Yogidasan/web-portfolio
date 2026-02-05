@@ -1,5 +1,4 @@
 import React, { memo } from "react";
-import program from "../assets/images/programmer.jpg";
 import Title from "./ui/Title";
 import { portfolioData } from "../data/portfolio";
 
@@ -65,7 +64,7 @@ const ImageSection = memo(() => (
         {/* Enhanced gradient overlay */}
         <div className="absolute inset-0 bg-linear-to-tr from-neon-purple/30 to-neon-cyan/20 mix-blend-overlay z-10 pointer-events-none group-hover:from-neon-purple/40 group-hover:to-neon-cyan/30 transition-all duration-300" />
         <img
-          src={program}
+          src="/images/programmer.jpg"
           alt="Full-stack Developer"
           className="w-full h-auto object-cover aspect-auto md:aspect-4/5 group-hover:scale-105 transition-transform duration-500"
           loading="lazy"

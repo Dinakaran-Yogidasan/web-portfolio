@@ -12,7 +12,6 @@ import {
   Layers,
 } from "lucide-react";
 import RotatingJobTitle from "../utils/RotatingJobTitle";
-import DinakaranYogidasan from "../assets/resume/Dinakaran-Yogidasan.pdf";
 import { portfolioData } from "../data/portfolio";
 
 // Constants
@@ -272,9 +271,9 @@ const Hero: React.FC = () => {
               />
             </a>
             <a
-              href={DinakaranYogidasan}
-              className="px-8 py-4 rounded-full border border-border bg-bg-card/60 backdrop-blur-sm text-text-title font-semibold hover:bg-bg-card transition-all flex items-center justify-center gap-2 hover:scale-105 active:scale-95"
+              href="/resume/Dinakaran-Yogidasan.pdf"
               download="Dinakaran-Yogidasan.pdf"
+              className="px-8 py-4 rounded-full border border-border bg-bg-card/60 backdrop-blur-sm text-text-title font-semibold hover:bg-bg-card transition-all flex items-center justify-center gap-2 hover:scale-105 active:scale-95"
               target="_blank"
               rel="noreferrer"
             >

@@ -1,6 +1,5 @@
 import { Cpu, Globe, Zap, Linkedin, Github } from "lucide-react";
 import type { Project, Experience } from "../types.ts";
-import userLogo from "../assets/images/userLogo.jpg";
 export const portfolioData = {
   navLinks: [
     { name: "About", href: "#about" },
@@ -198,7 +197,7 @@ export const portfolioData = {
       text: "I hired Dinakaran as a React.js developer, and it quickly became clear he brought more than just strong technical skills — his positive attitude, adaptability, and eagerness to learn stood out from day one. When we needed a DevOps engineer, I gave Dinakaran the opportunity to transition into the role, and he made the switch seamlessly. He quickly got to grips with GitHub Actions, static analysis, and security tools, and consistently delivered high-quality work. He was also highly proactive, reaching out across client teams to identify needs and get things done efficiently. In addition to his technical ability, Dinakaran had excellent client-facing presentation skills. He was confident, clear, and professional in his communication — a real asset in any cross-team or stakeholder-facing context. Dinakaran brings drive, versatility, and professionalism to everything he does. I wouldn’t hesitate to work with him again.",
       author: "Paul Smout",
       role: "Software Technology Director/Technology Manager",
-      avatar: userLogo, // replace string path with imported asset
+      avatar: "/images/userLogo.jpg", // replace string path with imported asset
     },
   ],
 
